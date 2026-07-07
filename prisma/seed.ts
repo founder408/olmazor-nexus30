@@ -6,6 +6,26 @@ const prisma = new PrismaClient();
 
 async function main() {
   console.log("Seeding tracks...");
+
+  const legacyTrackNames: Record<string, string> = {
+    EdTech: "Ta'lim",
+    MedTech: "Tibbiyot",
+    TourTech: "Turizm",
+  };
+
+  for (const [oldName, newName] of Object.entries(legacyTrackNames)) {
+    const existing = await prisma.track.findUnique({ where: { name: oldName } });
+    if (!existing) continue;
+
+    const renamed = await prisma.track.findUnique({ where: { name: newName } });
+    if (!renamed) {
+      await prisma.track.update({
+        where: { id: existing.id },
+        data: { name: newName },
+      });
+    }
+  }
+
   for (const name of TRACK_NAMES) {
     await prisma.track.upsert({
       where: { name },

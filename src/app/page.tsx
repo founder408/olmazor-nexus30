@@ -362,7 +362,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Yo'nalishlar"
               title="Qaysi sohada kuchingizni sinaysiz?"
-              description="Beshta strategik yo'nalish — davlat xizmatlaridan turizmgacha. G'oyangiz qaysi sohaga tegishli bo'lsa, o'sha trekni tanlaysiz."
+              description="Beshta strategik yo'nalish — tibbiyotdan fintechgacha. G'oyangiz qaysi sohaga tegishli bo'lsa, o'sha yo'nalishni tanlaysiz."
             />
           </Reveal>
           <Reveal delay={0.1}>

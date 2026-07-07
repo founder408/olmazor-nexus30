@@ -1,9 +1,9 @@
 export const TRACK_NAMES = [
+  "Tibbiyot",
+  "Ta'lim",
+  "Turizm",
   "Davlat Boshqaruvi",
   "Fintech",
-  "EdTech",
-  "MedTech",
-  "TourTech",
 ] as const;
 
 export const STARTUP_TRACK_NAMES = [...TRACK_NAMES, "Boshqa"] as const;
