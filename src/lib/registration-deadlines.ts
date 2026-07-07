@@ -3,10 +3,10 @@ export const REGISTRATION_TIMEZONE = "Asia/Tashkent";
 
 export type RegistrationEvent = "ideaton" | "hakaton" | "startup";
 
-/** Ideaton: 13-iyul 00:00 · Startup: 15-iyul 00:00 · Hakaton: cheklovsiz (token orqali) */
+/** Ideaton: 14-iyul 00:00 · Startup: 16-iyul 00:00 · Hakaton: cheklovsiz (token orqali) */
 const DEFAULT_DEADLINES: Record<"ideaton" | "startup", string> = {
-  ideaton: "2026-07-13T00:00:00+05:00",
-  startup: "2026-07-15T00:00:00+05:00",
+  ideaton: "2026-07-14T00:00:00+05:00",
+  startup: "2026-07-16T00:00:00+05:00",
 };
 
 function getDeadlineIso(event: "ideaton" | "startup"): string {

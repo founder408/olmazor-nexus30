@@ -37,6 +37,15 @@ export const EVENT_LABELS: Record<EventKey, string> = {
   startup: "AI Startup Kuni",
 };
 
+/** Tadbir kunlari (Toshkent vaqti) */
+export const EVENT_DATES: Record<EventKey, { iso: string; label: string }> = {
+  ideaton: { iso: "2026-07-16", label: "16-iyul" },
+  hakaton: { iso: "2026-07-17", label: "17-iyul" },
+  startup: { iso: "2026-07-18", label: "18-iyul" },
+};
+
+export const EVENT_DATE_RANGE_LABEL = "16–18 iyul, 2026";
+
 /** Rasmiy NEXUS30 Telegram kanali */
 export const TELEGRAM_CHANNEL_URL = "https://t.me/nexus30uz";
 export const TELEGRAM_CHANNEL_HANDLE = "@nexus30uz";

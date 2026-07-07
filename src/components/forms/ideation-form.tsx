@@ -22,10 +22,7 @@ import {
 } from "@/components/ui/select";
 import { FieldShell } from "@/components/forms/field-shell";
 import { NetworkProgress } from "@/components/network-progress";
-import {
-  ideationApplicationSchema,
-  type IdeationApplicationInput,
-} from "@/lib/validations";
+import { EVENT_DATE_RANGE_LABEL } from "@/lib/constants";
 
 const STEPS = [
   { id: "shaxsiy", label: "Shaxsiy ma'lumot" },
@@ -252,7 +249,8 @@ export function IdeationForm({
                         className="mt-0.5"
                       />
                       <span className="text-sm text-text-primary">
-                        Men Ideatonning barcha 3 kunida to'liq qatnasha olishimni tasdiqlayman
+                        Men Ideatonning barcha 3 kunida ({EVENT_DATE_RANGE_LABEL}) to&apos;liq
+                        qatnasha olishimni tasdiqlayman
                       </span>
                     </label>
                   )}

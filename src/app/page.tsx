@@ -15,16 +15,32 @@ import { GirihStar, GirihDivider } from "@/components/girih";
 import { Reveal } from "@/components/reveal";
 import { Button } from "@/components/ui/button";
 import {
+  EVENT_DATE_RANGE_LABEL,
+  EVENT_DATES,
   TELEGRAM_CHANNEL_HANDLE,
   TELEGRAM_CHANNEL_URL,
   TRACK_NAMES,
+  type EventKey,
 } from "@/lib/constants";
 
-const STAGES = [
+const STAGES: Array<{
+  key: EventKey;
+  index: string;
+  title: string;
+  date: string;
+  icon: typeof Lightbulb;
+  accent: string;
+  line: string;
+  ring: string;
+  description: string;
+  href: string;
+  cta: string;
+}> = [
   {
     key: "ideaton",
     index: "01",
     title: "Ideaton",
+    date: EVENT_DATES.ideaton.label,
     icon: Lightbulb,
     accent: "text-accent-violet",
     line: "bg-accent-violet",
@@ -38,6 +54,7 @@ const STAGES = [
     key: "hakaton",
     index: "02",
     title: "Hakaton",
+    date: EVENT_DATES.hakaton.label,
     icon: Users,
     accent: "text-accent-teal",
     line: "bg-accent-teal",
@@ -51,6 +68,7 @@ const STAGES = [
     key: "startup",
     index: "03",
     title: "AI Startup Kuni",
+    date: EVENT_DATES.startup.label,
     icon: Rocket,
     accent: "text-accent-gold",
     line: "bg-accent-gold",
@@ -93,6 +111,7 @@ const PROCESS = [
 ];
 
 const MARQUEE_ITEMS = [
+  EVENT_DATE_RANGE_LABEL,
   "Ideaton",
   "Hakaton",
   "AI Startup Kuni",
@@ -191,7 +210,7 @@ export default function Home() {
                   Arizalar ochiq
                 </span>
                 <span className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-text-muted sm:text-xs">
-                  Olmazor tumani · 17–25 yosh
+                  {EVENT_DATE_RANGE_LABEL} · Olmazor tumani · 17–25 yosh
                 </span>
               </div>
 
@@ -258,6 +277,9 @@ export default function Home() {
                     </span>
                     <span className="mt-1 block font-display text-sm font-bold text-text-primary sm:text-base">
                       {stage.title}
+                    </span>
+                    <span className="mt-1 block font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted/80">
+                      {stage.date}
                     </span>
                     <span
                       className={`mt-2 inline-flex items-center gap-1 text-xs font-medium opacity-0 transition-opacity duration-200 group-hover:opacity-100 ${stage.accent}`}
@@ -338,6 +360,9 @@ export default function Home() {
                     <h3 className="font-display text-lg font-bold text-text-primary sm:text-[22px]">
                       {stage.title}
                     </h3>
+                    <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.16em] text-text-muted/80">
+                      {stage.date}
+                    </p>
                     <p className="mt-3 text-sm leading-6 text-text-muted">
                       {stage.description}
                     </p>
