@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { DEFAULT_MAX_AGE, DEFAULT_MIN_AGE } from "@/lib/constants";
 import { prisma } from "@/lib/prisma";
 import { ideationApplicationSchema, isAgeValid } from "@/lib/validations";
 import { getClientIp, rateLimit } from "@/lib/rate-limit";
@@ -41,8 +41,8 @@ export async function POST(req: NextRequest) {
   }
 
   const settings = await prisma.setting.findUnique({ where: { id: 1 } });
-  const minAge = settings?.minAge ?? 17;
-  const maxAge = settings?.maxAge ?? 25;
+  const minAge = settings?.minAge ?? DEFAULT_MIN_AGE;
+  const maxAge = settings?.maxAge ?? DEFAULT_MAX_AGE;
   const birthDate = new Date(data.birthDate);
   const ageValid = isAgeValid(birthDate, minAge, maxAge);
 

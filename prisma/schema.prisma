@@ -195,8 +195,8 @@ model StartupApplication {
 /// System-wide configuration (age bounds, etc.) — single row table.
 model Setting {
   id            Int      @id @default(1)
-  minAge        Int      @default(17)
-  maxAge        Int      @default(25)
+  minAge        Int      @default(14)
+  maxAge        Int      @default(30)
   eventName     String   @default("NEXUS30")
   updatedAt     DateTime @updatedAt
 

@@ -1,7 +1,7 @@
 # NEXUS30 — Event Platform
 
 Ro'yxatdan o'tish, saralash va check-in platformasi: **Ideaton → Hakaton → AI Startup
-Kuni**. Olmazor tumani 17–25 yoshli yoshlari uchun 3 bosqichli tech-tadbir.
+Kuni**. Olmazor tumani 14–30 yoshli yoshlari uchun 3 bosqichli tech-tadbir.
 
 "Silk Road meets Circuit Board" — O'zbek geometrik naqshlari (girih) va tarmoq/tugun
 (network/node) estetikasi birlashtirilgan, futuristik va sokin UI.

@@ -9,6 +9,7 @@ import {
   isAgeValid,
 } from "@/lib/validations";
 import type { EventKey } from "@/lib/constants";
+import { DEFAULT_MAX_AGE, DEFAULT_MIN_AGE } from "@/lib/constants";
 
 export type ApplicationDetail = {
   event: EventKey;
@@ -231,7 +232,7 @@ export async function PUT(
 
       const settings = await prisma.setting.findUnique({ where: { id: 1 } });
       const birthDate = new Date(data.birthDate);
-      const ageValid = isAgeValid(birthDate, settings?.minAge ?? 17, settings?.maxAge ?? 25);
+      const ageValid = isAgeValid(birthDate, settings?.minAge ?? DEFAULT_MIN_AGE, settings?.maxAge ?? DEFAULT_MAX_AGE);
 
       await prisma.$transaction([
         prisma.participant.update({

@@ -8,13 +8,18 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FieldShell } from "@/components/forms/field-shell";
+import { DEFAULT_MAX_AGE, DEFAULT_MIN_AGE } from "@/lib/constants";
 import { ChangePasswordCard } from "@/components/admin/change-password-card";
 
 type Track = { id: string; name: string };
 type Settings = { minAge: number; maxAge: number; eventName: string };
 
 export default function AdminSettingsPage() {
-  const [settings, setSettings] = useState<Settings>({ minAge: 17, maxAge: 25, eventName: "NEXUS30" });
+  const [settings, setSettings] = useState<Settings>({
+    minAge: DEFAULT_MIN_AGE,
+    maxAge: DEFAULT_MAX_AGE,
+    eventName: "NEXUS30",
+  });
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

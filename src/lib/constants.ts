@@ -8,8 +8,10 @@ export const TRACK_NAMES = [
 
 export const STARTUP_TRACK_NAMES = [...TRACK_NAMES, "Boshqa"] as const;
 
-export const DEFAULT_MIN_AGE = 17;
-export const DEFAULT_MAX_AGE = 25;
+export const DEFAULT_MIN_AGE = 14;
+export const DEFAULT_MAX_AGE = 30;
+
+export const AGE_RANGE_LABEL = `${DEFAULT_MIN_AGE}–${DEFAULT_MAX_AGE} yosh`;
 
 export const STATUS_LABELS: Record<string, string> = {
   pending: "Kutilmoqda",

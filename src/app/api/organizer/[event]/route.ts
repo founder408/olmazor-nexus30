@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/session";
 import { nanoid } from "nanoid";
 import type { EventKey } from "@/lib/constants";
+import { DEFAULT_MAX_AGE, DEFAULT_MIN_AGE } from "@/lib/constants";
 import {
   ideationApplicationAdminSchema,
   hakatonTeamAdminSchema,
@@ -166,7 +167,7 @@ export async function POST(req: NextRequest, { params }: { params: { event: stri
 
       const settings = await prisma.setting.findUnique({ where: { id: 1 } });
       const birthDate = new Date(data.birthDate);
-      const ageValid = isAgeValid(birthDate, settings?.minAge ?? 17, settings?.maxAge ?? 25);
+      const ageValid = isAgeValid(birthDate, settings?.minAge ?? DEFAULT_MIN_AGE, settings?.maxAge ?? DEFAULT_MAX_AGE);
 
       const participant = await prisma.participant.upsert({
         where: { phone: data.phone },

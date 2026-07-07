@@ -15,6 +15,9 @@ import { GirihStar, GirihDivider } from "@/components/girih";
 import { Reveal } from "@/components/reveal";
 import { Button } from "@/components/ui/button";
 import {
+  AGE_RANGE_LABEL,
+  DEFAULT_MAX_AGE,
+  DEFAULT_MIN_AGE,
   EVENT_DATE_RANGE_LABEL,
   EVENT_DATES,
   TELEGRAM_CHANNEL_HANDLE,
@@ -83,7 +86,7 @@ const STAGES: Array<{
 const STATS = [
   { value: "03", label: "Bosqichli tanlov" },
   { value: "05", label: "Texnologik yo'nalish" },
-  { value: "17–25", label: "Yosh oralig'i" },
+  { value: `${DEFAULT_MIN_AGE}–${DEFAULT_MAX_AGE}`, label: "Yosh oralig'i" },
   { value: "24/7", label: "Onlayn ariza qabuli" },
 ];
 
@@ -117,7 +120,7 @@ const MARQUEE_ITEMS = [
   "AI Startup Kuni",
   ...TRACK_NAMES,
   "Olmazor tumani",
-  "17–25 yosh",
+  AGE_RANGE_LABEL,
 ];
 
 function MarqueeStrip() {
@@ -210,7 +213,7 @@ export default function Home() {
                   Arizalar ochiq
                 </span>
                 <span className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-text-muted sm:text-xs">
-                  {EVENT_DATE_RANGE_LABEL} · Olmazor tumani · 17–25 yosh
+                  {EVENT_DATE_RANGE_LABEL} · Olmazor tumani · {AGE_RANGE_LABEL}
                 </span>
               </div>
 

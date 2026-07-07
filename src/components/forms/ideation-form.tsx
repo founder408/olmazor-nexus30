@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { FieldShell } from "@/components/forms/field-shell";
 import { NetworkProgress } from "@/components/network-progress";
-import { EVENT_DATE_RANGE_LABEL } from "@/lib/constants";
+import { AGE_RANGE_LABEL, EVENT_DATE_RANGE_LABEL } from "@/lib/constants";
 
 const STEPS = [
   { id: "shaxsiy", label: "Shaxsiy ma'lumot" },
@@ -164,7 +164,7 @@ export function IdeationForm({
                   label="Tug'ilgan sana"
                   error={errors.birthDate?.message}
                   touched={touchedFields.birthDate}
-                  hint="Yosh chegarasi: 17–25"
+                  hint={`Yosh chegarasi: ${AGE_RANGE_LABEL}`}
                 >
                   <Input type="date" className="font-mono" {...register("birthDate")} />
                 </FieldShell>

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { TRACK_NAMES } from "../src/lib/constants";
+import { DEFAULT_MAX_AGE, DEFAULT_MIN_AGE, TRACK_NAMES } from "../src/lib/constants";
 
 const prisma = new PrismaClient();
 
@@ -37,8 +37,8 @@ async function main() {
   console.log("Seeding default settings...");
   await prisma.setting.upsert({
     where: { id: 1 },
-    update: {},
-    create: { id: 1, minAge: 17, maxAge: 25, eventName: "NEXUS30" },
+    update: { minAge: DEFAULT_MIN_AGE, maxAge: DEFAULT_MAX_AGE },
+    create: { id: 1, minAge: DEFAULT_MIN_AGE, maxAge: DEFAULT_MAX_AGE, eventName: "NEXUS30" },
   });
 
   const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "admin@nexus30.uz";
