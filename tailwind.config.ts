@@ -99,10 +99,9 @@ const config: Config = {
           "0%, 100%": { opacity: "0.6" },
           "50%": { opacity: "1" },
         },
-        "shine-sweep": {
-          "0%, 15%": { transform: "translateX(-20%) skewX(-12deg)", opacity: "0" },
-          "25%": { opacity: "1" },
-          "45%, 100%": { transform: "translateX(320%) skewX(-12deg)", opacity: "0" },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
         },
       },
       animation: {
@@ -110,7 +109,7 @@ const config: Config = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.4s ease-out",
         "pulse-node": "pulse-node 2.4s ease-in-out infinite",
-        "shine-sweep": "shine-sweep 3.2s ease-in-out infinite",
+        marquee: "marquee 36s linear infinite",
       },
     },
   },
