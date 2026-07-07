@@ -4,8 +4,11 @@
 # Mavjud PostgreSQL ishlatmoqchi bo'lsangiz, databases bo'limini o'chirib,
 # web service dagi DATABASE_URL ni qo'lda kiriting.
 #
-# Eslatma: NODE_ENV=production build vaqtida qo'yilmasin — devDependencies
-# (TypeScript, ESLint) o'rnatilishi uchun.
+# Eslatma: build uchun zarur paketlar (TypeScript, ESLint, @types/*, tailwindcss,
+# tsx) atayin "dependencies"ga qo'yilgan (devDependencies emas), shuning uchun
+# NODE_ENV=production yoqilgan bo'lsa ham `npm ci` ularni o'tkazib yubormaydi.
+# Bu Render panelida Build Command qo'lda boshqa narsaga o'rnatilgan bo'lsa ham
+# (masalan oddiy `npm ci && npm run build`) buildni ishlashini kafolatlaydi.
 
 databases:
   - name: olmazor-nexus30-db
@@ -22,7 +25,7 @@ services:
     region: frankfurt
     plan: free
     branch: main
-    buildCommand: npm ci --include=dev && npm run build
+    buildCommand: npm ci && npm run build
     startCommand: npm run start:render
     healthCheckPath: /
     autoDeploy: true
