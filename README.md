@@ -115,7 +115,7 @@ prisma/
 
 1. Render'da yangi **PostgreSQL** (Frankfurt) yoki mavjud bazadan `DATABASE_URL` oling.
 2. **New Web Service** (Node):
-   - Build: `npm ci && npm run build`
+    buildCommand: npm ci --include=dev && npm run build
    - Start: `npm run start:render`
    - Node: **20**
 3. Environment variables:

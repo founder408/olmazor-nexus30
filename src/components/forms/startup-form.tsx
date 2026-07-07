@@ -27,7 +27,7 @@ import {
   type StartupApplicationInput,
 } from "@/lib/validations";
 
-export function StartupForm() {
+export function StartupForm({ deadlineLabel }: { deadlineLabel?: string | null }) {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
 
@@ -87,6 +87,12 @@ export function StartupForm() {
         <p className="mt-1.5 text-sm text-text-muted">
           Yakka founder yoki jamoa vakili sifatida startup g'oyangizni yuboring.
         </p>
+        {deadlineLabel && (
+          <p className="mt-2 rounded-lg border border-accent-gold/20 bg-accent-gold/10 px-3 py-2 text-xs text-text-muted">
+            Ariza qabuli <span className="font-medium text-text-primary">{deadlineLabel}</span>{" "}
+            gacha ochiq (Toshkent vaqti, 00:00 da yopiladi).
+          </p>
+        )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5" noValidate>
           <FieldShell

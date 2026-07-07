@@ -39,7 +39,13 @@ const STEP_FIELDS: (keyof IdeationApplicationInput)[][] = [
   ["trackId", "timeConfirmed"],
 ];
 
-export function IdeationForm({ tracks }: { tracks: { id: string; name: string }[] }) {
+export function IdeationForm({
+  tracks,
+  deadlineLabel,
+}: {
+  tracks: { id: string; name: string }[];
+  deadlineLabel?: string | null;
+}) {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -111,6 +117,12 @@ export function IdeationForm({ tracks }: { tracks: { id: string; name: string }[
         <p className="mt-1.5 text-sm text-text-muted">
           3 bosqichda to'ldiring — bor-yo'g'i 3-5 daqiqa vaqt oladi.
         </p>
+        {deadlineLabel && (
+          <p className="mt-2 rounded-lg border border-accent-violet/20 bg-accent-violet/10 px-3 py-2 text-xs text-text-muted">
+            Ariza qabuli <span className="font-medium text-text-primary">{deadlineLabel}</span>{" "}
+            gacha ochiq (Toshkent vaqti, 00:00 da yopiladi).
+          </p>
+        )}
 
         <form
           onSubmit={handleSubmit(onSubmit)}

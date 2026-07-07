@@ -7,6 +7,7 @@ import { Loader2, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import {
@@ -25,7 +26,7 @@ import type { ApplicationDetail } from "@/app/api/organizer/[event]/[id]/route";
 
 const STATUSES = ["pending", "shortlisted", "rejected"] as const;
 const MIN_MEMBERS = 3;
-const MAX_MEMBERS = 6;
+const MAX_MEMBERS = 5;
 
 export function HakatonAdminForm({
   mode,
@@ -53,15 +54,22 @@ export function HakatonAdminForm({
     defaultValues: {
       teamName: initialData?.teamName ?? "",
       githubOrgUsername: initialData?.githubOrgUsername ?? "",
+      motivation: initialData?.motivation ?? "",
       trackId: initialData?.trackId ?? "",
       status: initialData?.status ?? "pending",
       members:
         initialData?.members && initialData.members.length > 0
-          ? initialData.members
+          ? initialData.members.map((m) => ({
+              fullName: m.fullName,
+              phone: m.phone,
+              telegramUsername: m.telegramUsername,
+              domain: m.domain ?? "",
+              skills: m.skills ?? "",
+            }))
           : [
-              { fullName: "", phone: "+998", telegramUsername: "@" },
-              { fullName: "", phone: "+998", telegramUsername: "@" },
-              { fullName: "", phone: "+998", telegramUsername: "@" },
+              { fullName: "", phone: "+998", telegramUsername: "@", domain: "", skills: "" },
+              { fullName: "", phone: "+998", telegramUsername: "@", domain: "", skills: "" },
+              { fullName: "", phone: "+998", telegramUsername: "@", domain: "", skills: "" },
             ],
     },
   });
@@ -149,6 +157,10 @@ export function HakatonAdminForm({
         <Input className="font-mono" {...register("githubOrgUsername")} />
       </FieldShell>
 
+      <FieldShell label="Nima uchun qatnashmoqchi (motivatsiya)" error={errors.motivation?.message}>
+        <Textarea rows={4} {...register("motivation")} />
+      </FieldShell>
+
       <div>
         <div className="mb-3 flex items-center justify-between">
           <p className="text-sm font-medium text-text-primary">Jamoa a'zolari</p>
@@ -189,6 +201,14 @@ export function HakatonAdminForm({
                   <Input className="font-mono" {...register(`members.${index}.telegramUsername` as const)} />
                 </FieldShell>
               </div>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <FieldShell label="Sohasi" error={errors.members?.[index]?.domain?.message}>
+                  <Input placeholder="Masalan: Frontend dasturchi" {...register(`members.${index}.domain` as const)} />
+                </FieldShell>
+                <FieldShell label="Ko'nikmalari" error={errors.members?.[index]?.skills?.message}>
+                  <Input placeholder="Masalan: React, Figma, SMM" {...register(`members.${index}.skills` as const)} />
+                </FieldShell>
+              </div>
             </div>
           ))}
         </div>
@@ -198,7 +218,7 @@ export function HakatonAdminForm({
             type="button"
             variant="secondary"
             className="mt-3 w-full gap-1.5"
-            onClick={() => append({ fullName: "", phone: "+998", telegramUsername: "@" })}
+            onClick={() => append({ fullName: "", phone: "+998", telegramUsername: "@", domain: "", skills: "" })}
           >
             <Plus className="h-4 w-4" />
             Yana a'zo qo'shish

@@ -35,7 +35,8 @@ export type ApplicationDetail = {
   // hakaton
   teamName?: string;
   githubOrgUsername?: string | null;
-  members?: { fullName: string; phone: string; telegramUsername: string }[];
+  motivation?: string | null;
+  members?: { fullName: string; phone: string; telegramUsername: string; domain?: string | null; skills?: string | null }[];
   inviteLink?: string;
   formSubmitted?: boolean;
   // startup
@@ -100,10 +101,13 @@ async function loadDetail(event: EventKey, id: string): Promise<ApplicationDetai
       createdAt: t.createdAt.toISOString(),
       teamName: t.teamName,
       githubOrgUsername: t.githubOrgUsername,
+      motivation: t.motivation,
       members: t.members.map((m) => ({
         fullName: m.fullName,
         phone: m.phone,
         telegramUsername: m.telegramUsername,
+        domain: m.domain,
+        skills: m.skills,
       })),
       inviteLink: t.formSubmitted ? undefined : `/hakaton/ariza/${t.inviteToken}`,
       formSubmitted: t.formSubmitted,
@@ -270,6 +274,7 @@ export async function PUT(
             teamName: data.teamName,
             trackId: data.trackId,
             githubOrgUsername: data.githubOrgUsername || null,
+            motivation: data.motivation,
             formSubmitted: true,
             ...(data.status ? { status: data.status } : {}),
           },
@@ -281,6 +286,8 @@ export async function PUT(
             fullName: m.fullName,
             phone: m.phone,
             telegramUsername: m.telegramUsername,
+            domain: m.domain,
+            skills: m.skills,
           })),
         }),
       ]);

@@ -2,8 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { ideationApplicationSchema, isAgeValid } from "@/lib/validations";
 import { getClientIp, rateLimit } from "@/lib/rate-limit";
+import { isRegistrationOpen, registrationClosedMessage } from "@/lib/registration-deadlines";
 
 export async function POST(req: NextRequest) {
+  if (!isRegistrationOpen("ideaton")) {
+    return NextResponse.json({ error: registrationClosedMessage("ideaton") }, { status: 403 });
+  }
+
   const ip = getClientIp(req.headers);
   const { allowed } = rateLimit(`ideaton:${ip}`, 5, 60_000);
   if (!allowed) {

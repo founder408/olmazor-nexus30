@@ -25,10 +25,9 @@ const STAGES = [
     accent: "text-accent-teal",
     ring: "border-accent-teal/30 hover:border-accent-teal/60",
     description:
-      "Saralangan jamoalar 48 soat ichida g'oyani ishlaydigan mahsulotga aylantiradi. Faqat maxsus taklif linki orqali.",
+      "Ideatondan saralangan jamoalar maxsus link orqali ro'yxatdan o'tadi. Qo'shimcha jamoalar ham ochiq ariza orqali qo'shilishi va saralovdan o'tishi mumkin.",
     href: "/hakaton/ariza",
-    cta: "Jamoa uchun ma'lumot",
-    disabled: true,
+    cta: "Hakatonga ariza topshirish",
   },
   {
     key: "startup",
@@ -138,15 +137,8 @@ export default function Home() {
                     {stage.description}
                   </p>
                 </div>
-                <Button
-                  asChild
-                  variant="secondary"
-                  className="mt-5 w-full sm:mt-6"
-                  disabled={stage.disabled}
-                >
-                  <Link href={stage.href} aria-disabled={stage.disabled}>
-                    {stage.cta}
-                  </Link>
+                <Button asChild variant="secondary" className="mt-5 w-full sm:mt-6">
+                  <Link href={stage.href}>{stage.cta}</Link>
                 </Button>
               </Card>
             ))}

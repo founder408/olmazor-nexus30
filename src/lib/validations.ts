@@ -68,17 +68,30 @@ export const teamMemberSchema = z.object({
   fullName: z.string().trim().min(2, "Ism va familyani kiriting"),
   phone: phoneSchema,
   telegramUsername: telegramSchema,
+  domain: z.string().trim().min(2, "Sohasini kiriting (masalan: Frontend, Dizayn, Marketing)").max(80),
+  skills: z.string().trim().min(2, "Ko'nikmalarini kiriting (masalan: React, Figma, SMM)").max(300),
 });
 
 export const hakatonTeamSchema = z.object({
   teamName: z.string().trim().min(2, "Jamoa nomini kiriting"),
   githubOrgUsername: z.string().trim().optional().or(z.literal("")),
+  motivation: z
+    .string()
+    .trim()
+    .min(50, "Kamida 50 belgi yozing")
+    .max(800, "Ko'pi bilan 800 belgi"),
   members: z
     .array(teamMemberSchema)
     .min(3, "Kamida 3 ta a'zo bo'lishi kerak")
-    .max(6, "Ko'pi bilan 6 ta a'zo"),
+    .max(5, "Ko'pi bilan 5 ta a'zo"),
 });
 export type HakatonTeamInput = z.infer<typeof hakatonTeamSchema>;
+
+/** Ochiq Hakaton ro'yxatdan o'tish (Ideatondan mustaqil qo'shimcha jamoalar) */
+export const hakatonPublicRegistrationSchema = hakatonTeamSchema.extend({
+  trackId: z.string().min(1, "Yo'nalishni tanlang"),
+});
+export type HakatonPublicRegistrationInput = z.infer<typeof hakatonPublicRegistrationSchema>;
 
 /** Used by organizer/admin to create or edit a Hakaton team directly (trackId + optional status). */
 export const hakatonTeamAdminSchema = hakatonTeamSchema.extend({

@@ -41,6 +41,7 @@ export async function POST(req: NextRequest, { params }: { params: { token: stri
       data: {
         teamName: data.teamName,
         githubOrgUsername: data.githubOrgUsername || null,
+        motivation: data.motivation,
         formSubmitted: true,
       },
     }),
@@ -51,6 +52,8 @@ export async function POST(req: NextRequest, { params }: { params: { token: stri
         fullName: m.fullName,
         phone: m.phone,
         telegramUsername: m.telegramUsername,
+        domain: m.domain,
+        skills: m.skills,
       })),
     }),
   ]);

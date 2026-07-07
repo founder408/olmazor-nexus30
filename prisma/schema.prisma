@@ -138,6 +138,7 @@ model Team {
   inviteToken            String             @unique @default(uuid())
   formSubmitted          Boolean            @default(false)
   githubOrgUsername      String?
+  motivation             String?
   originIdeationAppId    String?            @unique
   originIdeationApp      IdeationApplication? @relation(fields: [originIdeationAppId], references: [id])
   createdAt              DateTime           @default(now())
@@ -156,6 +157,8 @@ model TeamMember {
   fullName         String
   phone            String
   telegramUsername String
+  skills           String?
+  domain           String?
   participantId    String?
   participant      Participant? @relation(fields: [participantId], references: [id])
 

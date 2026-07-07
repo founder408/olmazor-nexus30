@@ -200,13 +200,43 @@ export function ApplicationDetailDialog({
                   <DetailRow label="Yo'nalish" value={detail.trackName} />
                   <DetailRow label="GitHub" value={detail.githubOrgUsername || "—"} />
                   <DetailRow
+                    label="Motivatsiya"
+                    value={
+                      detail.motivation ? (
+                        <span className="whitespace-pre-wrap">{detail.motivation}</span>
+                      ) : (
+                        "—"
+                      )
+                    }
+                  />
+                  <DetailRow
                     label="A'zolar"
                     value={
                       detail.members && detail.members.length > 0 ? (
-                        <ul className="space-y-1">
+                        <ul className="space-y-2.5">
                           {detail.members.map((m, i) => (
-                            <li key={i} className="font-mono text-xs">
-                              {m.fullName} — {m.phone} — {m.telegramUsername}
+                            <li
+                              key={i}
+                              className="rounded-lg border border-white/10 bg-white/[0.02] p-2.5 text-xs"
+                            >
+                              <div className="font-medium text-text-primary">{m.fullName}</div>
+                              <div className="mt-0.5 font-mono text-text-muted">
+                                {m.phone} — {m.telegramUsername}
+                              </div>
+                              {(m.domain || m.skills) && (
+                                <div className="mt-1 flex flex-wrap gap-1.5">
+                                  {m.domain && (
+                                    <span className="rounded-full bg-accent-teal/10 px-2 py-0.5 text-[11px] text-accent-teal">
+                                      {m.domain}
+                                    </span>
+                                  )}
+                                  {m.skills && (
+                                    <span className="rounded-full bg-accent-violet/10 px-2 py-0.5 text-[11px] text-accent-violet">
+                                      {m.skills}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
                             </li>
                           ))}
                         </ul>
