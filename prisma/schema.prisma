@@ -1,0 +1,275 @@
+// NEXUS30 Event Platform — Prisma schema
+// PostgreSQL (Render.com Managed Postgres)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  volunteer
+  organizer
+  admin
+}
+
+enum ApplicationStatus {
+  pending
+  shortlisted
+  rejected
+}
+
+enum TeamSource {
+  from_ideation
+  manual
+}
+
+/// Events for which staff (volunteer) attendance is tracked by organizers.
+enum StaffEvent {
+  ideaton
+  hakaton
+  startup
+}
+
+/// Events that support a presentation/work submission deadline window.
+enum SubmissionEvent {
+  ideaton
+  hakaton
+}
+
+/// System users who can log in: volunteers, organizers, admins.
+model User {
+  id           String   @id @default(uuid())
+  fullName     String
+  phone        String
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(volunteer)
+  createdAt    DateTime @default(now())
+
+  checkedInIdeationApps   IdeationApplication[]  @relation("IdeationCheckedInBy")
+  checkedOutIdeationApps  IdeationApplication[]  @relation("IdeationCheckedOutBy")
+  checkedInTeams          Team[]                 @relation("TeamCheckedInBy")
+  checkedOutTeams         Team[]                 @relation("TeamCheckedOutBy")
+  checkedInStartupApps    StartupApplication[]   @relation("StartupCheckedInBy")
+  checkedOutStartupApps   StartupApplication[]   @relation("StartupCheckedOutBy")
+  auditLogs               AuditLog[]
+
+  volunteerAttendance        VolunteerAttendance[] @relation("VolunteerAttendanceOf")
+  recordedVolunteerAttendance VolunteerAttendance[] @relation("VolunteerAttendanceRecordedBy")
+
+  createdSubmissionWindows SubmissionWindow[] @relation("SubmissionWindowCreatedBy")
+  reviewedSubmissions      Submission[]       @relation("SubmissionReviewedBy")
+
+  @@map("users")
+}
+
+/// Shared identity for every human who has ever filled a form.
+model Participant {
+  id               String   @id @default(uuid())
+  fullName         String
+  phone            String   @unique
+  telegramUsername String
+  birthDate        DateTime
+  ageValid         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+
+  ideationApplication IdeationApplication?
+  teamMemberships     TeamMember[]
+  startupApplications StartupApplication[]
+
+  @@map("participants")
+}
+
+/// Lookup table for tracks/verticals.
+model Track {
+  id   String @id @default(uuid())
+  name String @unique
+
+  ideationApplications IdeationApplication[]
+  teams                Team[]
+  startupApplications  StartupApplication[]
+
+  @@map("tracks")
+}
+
+model IdeationApplication {
+  id             String             @id @default(uuid())
+  participantId  String             @unique
+  participant    Participant        @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  motivationText String
+  experienceText String?
+  trackId        String
+  track          Track              @relation(fields: [trackId], references: [id])
+  timeConfirmed  Boolean            @default(false)
+  status         ApplicationStatus  @default(pending)
+  checkedIn      Boolean            @default(false)
+  checkedInAt    DateTime?
+  checkedInById  String?
+  checkedInBy    User?              @relation("IdeationCheckedInBy", fields: [checkedInById], references: [id])
+  checkedOutAt   DateTime?
+  checkedOutById String?
+  checkedOutBy   User?              @relation("IdeationCheckedOutBy", fields: [checkedOutById], references: [id])
+  createdAt      DateTime           @default(now())
+
+  team        Team?
+  submissions Submission[]
+
+  @@map("ideation_applications")
+}
+
+model Team {
+  id                     String             @id @default(uuid())
+  teamName               String
+  trackId                String
+  track                  Track              @relation(fields: [trackId], references: [id])
+  source                 TeamSource         @default(manual)
+  status                 ApplicationStatus  @default(pending)
+  checkedIn              Boolean            @default(false)
+  checkedInAt            DateTime?
+  checkedInById          String?
+  checkedInBy            User?              @relation("TeamCheckedInBy", fields: [checkedInById], references: [id])
+  checkedOutAt           DateTime?
+  checkedOutById         String?
+  checkedOutBy           User?              @relation("TeamCheckedOutBy", fields: [checkedOutById], references: [id])
+  inviteToken            String             @unique @default(uuid())
+  formSubmitted          Boolean            @default(false)
+  githubOrgUsername      String?
+  originIdeationAppId    String?            @unique
+  originIdeationApp      IdeationApplication? @relation(fields: [originIdeationAppId], references: [id])
+  createdAt              DateTime           @default(now())
+
+  members            TeamMember[]
+  startupApplication StartupApplication?
+  submissions        Submission[]
+
+  @@map("teams")
+}
+
+model TeamMember {
+  id               String       @id @default(uuid())
+  teamId           String
+  team             Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  fullName         String
+  phone            String
+  telegramUsername String
+  participantId    String?
+  participant      Participant? @relation(fields: [participantId], references: [id])
+
+  @@map("team_members")
+}
+
+model StartupApplication {
+  id              String            @id @default(uuid())
+  participantId   String?
+  participant     Participant?      @relation(fields: [participantId], references: [id])
+  teamId          String?           @unique
+  team            Team?             @relation(fields: [teamId], references: [id])
+  ideaDescription String
+  pitchDeckLink   String
+  prototypeLink   String?
+  hasSales        Boolean           @default(false)
+  revenueAmount   Decimal?          @db.Decimal(14, 2)
+  userCount       Int?
+  trackId         String
+  track           Track             @relation(fields: [trackId], references: [id])
+  status          ApplicationStatus @default(pending)
+  checkedIn       Boolean           @default(false)
+  checkedInAt     DateTime?
+  checkedInById   String?
+  checkedInBy     User?             @relation("StartupCheckedInBy", fields: [checkedInById], references: [id])
+  checkedOutAt    DateTime?
+  checkedOutById  String?
+  checkedOutBy    User?             @relation("StartupCheckedOutBy", fields: [checkedOutById], references: [id])
+  createdAt       DateTime          @default(now())
+
+  @@map("startup_applications")
+}
+
+/// System-wide configuration (age bounds, etc.) — single row table.
+model Setting {
+  id            Int      @id @default(1)
+  minAge        Int      @default(17)
+  maxAge        Int      @default(25)
+  eventName     String   @default("NEXUS30")
+  updatedAt     DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  action      String
+  targetTable String
+  targetId    String
+  metadata    Json?
+  timestamp   DateTime @default(now())
+
+  @@map("audit_log")
+}
+
+/// Staff (volunteer) arrival/departure for a given event day, recorded by an
+/// organizer/admin — NOT self-service by the volunteer.
+model VolunteerAttendance {
+  id            String     @id @default(uuid())
+  volunteerId   String
+  volunteer     User       @relation("VolunteerAttendanceOf", fields: [volunteerId], references: [id], onDelete: Cascade)
+  event         StaffEvent
+  checkedInAt   DateTime?
+  checkedOutAt  DateTime?
+  recordedById  String?
+  recordedBy    User?      @relation("VolunteerAttendanceRecordedBy", fields: [recordedById], references: [id])
+  updatedAt     DateTime   @updatedAt
+
+  @@unique([volunteerId, event])
+  @@map("volunteer_attendance")
+}
+
+/// Admin-created deadline window for Ideaton/Hakaton presentation & work
+/// submission, distributed as a single shared public link.
+model SubmissionWindow {
+  id          String          @id @default(uuid())
+  event       SubmissionEvent
+  title       String
+  token       String          @unique @default(uuid())
+  closesAt    DateTime
+  closedEarly Boolean         @default(false)
+  createdById String
+  createdBy   User            @relation("SubmissionWindowCreatedBy", fields: [createdById], references: [id])
+  createdAt   DateTime        @default(now())
+
+  submissions Submission[]
+
+  @@map("submission_windows")
+}
+
+/// A single team's/participant's submitted presentation/work link for a
+/// given deadline window. Exactly one of ideationApplicationId/teamId is set
+/// depending on the window's event.
+model Submission {
+  id                    String               @id @default(uuid())
+  submissionWindowId    String
+  submissionWindow      SubmissionWindow     @relation(fields: [submissionWindowId], references: [id], onDelete: Cascade)
+  ideationApplicationId String?
+  ideationApplication   IdeationApplication? @relation(fields: [ideationApplicationId], references: [id])
+  teamId                String?
+  team                  Team?                @relation(fields: [teamId], references: [id])
+  link                  String
+  description           String
+  reviewed              Boolean              @default(false)
+  reviewNote            String?
+  reviewedById          String?
+  reviewedBy            User?                @relation("SubmissionReviewedBy", fields: [reviewedById], references: [id])
+  reviewedAt            DateTime?
+  submittedAt           DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+
+  @@unique([submissionWindowId, ideationApplicationId])
+  @@unique([submissionWindowId, teamId])
+  @@map("submissions")
+}

@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* NEXUS30 design tokens */
+    --bg-primary: #0b0e1f;
+    --bg-surface: #141830;
+    --accent-violet: #7c5cff;
+    --accent-teal: #2dd4bf;
+    --accent-gold: #d4a94e;
+    --text-primary: #f5f6fa;
+    --text-muted: #8b8fa8;
+    --danger: #f2555a;
+
+    /* shadcn/ui semantic mapping */
+    --background: var(--bg-primary);
+    --foreground: var(--text-primary);
+
+    --card: var(--bg-surface);
+    --card-foreground: var(--text-primary);
+
+    --popover: #191d3a;
+    --popover-foreground: var(--text-primary);
+
+    --primary: var(--accent-violet);
+    --primary-foreground: #ffffff;
+
+    --secondary: #1b2040;
+    --secondary-foreground: var(--text-primary);
+
+    --muted: #1b2040;
+    --muted-foreground: var(--text-muted);
+
+    --accent: var(--accent-teal);
+    --accent-foreground: #04211d;
+
+    --destructive: var(--danger);
+    --destructive-foreground: #ffffff;
+
+    --border: rgba(255, 255, 255, 0.1);
+    --input: rgba(255, 255, 255, 0.14);
+    --ring: var(--accent-violet);
+
+    --radius: 1rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  ::selection {
+    background-color: rgba(124, 92, 255, 0.35);
+  }
+
+  /* Visible focus ring for keyboard navigation everywhere */
+  :focus-visible {
+    outline: 2px solid var(--accent-violet);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Signature surface card: rounded-2xl, subtle border, no glassmorphism */
+  .card-surface {
+    @apply rounded-2xl border border-white/10 bg-card;
+  }
+
+  .status-pending {
+    @apply bg-slate/15 text-slate border border-slate/30;
+  }
+  .status-shortlisted {
+    @apply bg-teal/15 text-teal border border-teal/30;
+  }
+  .status-rejected {
+    @apply bg-danger/15 text-danger border border-danger/30;
+  }
+  .status-checked-in {
+    @apply bg-violet/15 text-violet border border-violet/30;
+  }
+}

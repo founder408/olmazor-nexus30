@@ -1,0 +1,10 @@
+import { DashboardNav } from "@/components/dashboard-nav";
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative min-h-screen">
+      <DashboardNav />
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:pl-72 lg:pr-8">{children}</main>
+    </div>
+  );
+}
