@@ -23,6 +23,10 @@ import {
 import { FieldShell } from "@/components/forms/field-shell";
 import { NetworkProgress } from "@/components/network-progress";
 import { AGE_RANGE_LABEL, EVENT_DATE_RANGE_LABEL } from "@/lib/constants";
+import {
+  ideationApplicationSchema,
+  type IdeationApplicationInput,
+} from "@/lib/validations";
 
 const STEPS = [
   { id: "shaxsiy", label: "Shaxsiy ma'lumot" },

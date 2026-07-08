@@ -1,3 +1,4 @@
+import { NextRequest, NextResponse } from "next/server";
 import { DEFAULT_MAX_AGE, DEFAULT_MIN_AGE } from "@/lib/constants";
 import { prisma } from "@/lib/prisma";
 import { ideationApplicationSchema, isAgeValid } from "@/lib/validations";
