@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  ArrowRight,
   ArrowUpRight,
   ClipboardCheck,
   Lightbulb,
@@ -13,7 +12,6 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { GirihStar, GirihDivider } from "@/components/girih";
 import { Reveal } from "@/components/reveal";
-import { Button } from "@/components/ui/button";
 import {
   AGE_RANGE_LABEL,
   DEFAULT_MAX_AGE,
@@ -229,27 +227,6 @@ export default function Home() {
                 namoyish eting.
               </p>
 
-              <div className="mt-8 flex w-full max-w-md flex-col gap-3 sm:mt-10 sm:max-w-none sm:flex-row">
-                <Button
-                  asChild
-                  size="lg"
-                  className="group h-12 w-full rounded-lg text-sm font-semibold sm:h-[52px] sm:w-auto sm:px-8 sm:text-base"
-                >
-                  <Link href="/ideaton/ariza">
-                    Ideatonga ariza topshirish
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="h-12 w-full rounded-lg text-sm sm:h-[52px] sm:w-auto sm:px-8 sm:text-base"
-                >
-                  <Link href="/startup/ariza">AI Startup Kuniga ariza</Link>
-                </Button>
-              </div>
-
               <a
                 href={TELEGRAM_CHANNEL_URL}
                 target="_blank"
@@ -261,7 +238,7 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Bosqichlar — hero ostida zamonaviy mini-kartalar */}
+            {/* Ro'yxatdan o'tish — faqat 3 ta event linki */}
             <div className="animate-fade-in mt-12 grid grid-cols-1 gap-3 sm:mt-16 sm:grid-cols-3 sm:gap-4 lg:mt-20">
               {STAGES.map((stage) => (
                 <Link
@@ -276,19 +253,16 @@ export default function Home() {
                   </span>
                   <span className="min-w-0 text-left">
                     <span className="block font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-text-muted/70">
-                      {stage.index}-bosqich
+                      {stage.index}-bosqich · {stage.date}
                     </span>
                     <span className="mt-1 block font-display text-sm font-bold text-text-primary sm:text-base">
                       {stage.title}
                     </span>
-                    <span className="mt-1 block font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted/80">
-                      {stage.date}
-                    </span>
                     <span
-                      className={`mt-2 inline-flex items-center gap-1 text-xs font-medium opacity-0 transition-opacity duration-200 group-hover:opacity-100 ${stage.accent}`}
+                      className={`mt-2 inline-flex items-center gap-1 text-xs font-semibold ${stage.accent}`}
                     >
-                      Batafsil
-                      <ArrowUpRight className="h-3 w-3" />
+                      {stage.cta}
+                      <ArrowUpRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </span>
                   </span>
                 </Link>
@@ -370,14 +344,6 @@ export default function Home() {
                       {stage.description}
                     </p>
                   </div>
-
-                  <Link
-                    href={stage.href}
-                    className={`relative mt-6 inline-flex items-center gap-1.5 text-sm font-semibold ${stage.accent} transition-opacity hover:opacity-80`}
-                  >
-                    {stage.cta}
-                    <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </Link>
                 </article>
               </Reveal>
             ))}
@@ -476,29 +442,15 @@ export default function Home() {
                   Ariza topshirish bepul va 5 daqiqa vaqt oladi. Natijalar haqidagi barcha
                   yangiliklar Telegram kanalimizda e&apos;lon qilinadi.
                 </p>
-                <div className="mx-auto mt-8 flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="group h-12 w-full rounded-lg text-sm font-semibold sm:h-[52px] sm:w-auto sm:px-8 sm:text-base"
-                  >
-                    <Link href="/ideaton/ariza">
-                      Hoziroq ariza topshirish
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="h-12 w-full rounded-lg text-sm sm:h-[52px] sm:w-auto sm:px-8 sm:text-base"
-                  >
-                    <a href={TELEGRAM_CHANNEL_URL} target="_blank" rel="noopener noreferrer">
-                      <Send className="h-4 w-4" />
-                      Telegram kanalga obuna
-                    </a>
-                  </Button>
-                </div>
+                <a
+                  href={TELEGRAM_CHANNEL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mx-auto mt-8 inline-flex items-center gap-2 text-sm font-medium text-text-muted transition-colors hover:text-text-primary"
+                >
+                  <Send className="h-4 w-4" />
+                  {TELEGRAM_CHANNEL_HANDLE}
+                </a>
               </div>
             </div>
           </Reveal>
